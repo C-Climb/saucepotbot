@@ -1,4 +1,5 @@
 import discord
+from discord.ext.commands.core import check
 import settings
 from discord.ext import commands
 from discord.ext.commands import Bot
@@ -27,6 +28,7 @@ async def sauce(ctx, arg):
     supplied_image_error = "Supplied URL is not usable..."
     dimension_image_error = "image dimensions too small..."
     check_for_error = req.html.find("body", first=True).text
+    print(check_for_error)
     if error_message == check_for_error:
         return await ctx.send("This isn't an image...")
     elif supplied_image_error == check_for_error:
@@ -35,9 +37,12 @@ async def sauce(ctx, arg):
         return await ctx.send("Image too small...")
     else:
         most_similar_image = req.html.find('#resImage0', first=True).attrs        
+        most_similar_title = req.html.find('.resulttitle', first=True).text
         most_similar_text = req.html.find('.resultcontentcolumn', first=True).absolute_links
         if most_similar_text is not None:
-            await ctx.send("Most relevant Artist & Post:\n{}\n{}\n".format(list(most_similar_text)[1], list(most_similar_text)[0])) 
+            await ctx.send("**{}**".format(most_similar_title))
+            for x in list(most_similar_text):
+             return await ctx.send("Most relevant Artist & Post:\n\n{}".format(x))
         else:
             await ctx.send("Something went wrong when getting the Artist.")
         if most_similar_image is not None:
