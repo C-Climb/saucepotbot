@@ -56,7 +56,7 @@ async def sauce(ctx, arg):
                 for x in list(most_similar_links)
                 if "?lookup_type=0" not in x and "?lookup_type=1" not in x
             ]
-            await ctx.send("**== Most Relevant Artist & Post == **")
+            await ctx.send("**Most Relevant Artist & Post**")
             for x in filtered_links[:]:
                 await ctx.send("{}".format(x))
         else:
