@@ -51,15 +51,21 @@ async def sauce(ctx, arg):
             await ctx.send(
                 "**{}**, \n {}".format(most_similar_title, most_similar_text)
             )
-            await ctx.send("**Most Relevant Artist & Post**")
-            for x in list(most_similar_links):
-                print(x)
+            filtered_links = [
+                x
+                for x in list(most_similar_links)
+                if "?lookup_type=0" not in x and "?lookup_type=1" not in x
+            ]
+            await ctx.send("**== Most Relevant Artist & Post == **")
+            for x in filtered_links[:]:
                 await ctx.send("{}".format(x))
         else:
             await ctx.send("Something went wrong when getting the Artist.")
         if most_similar_image is not None:
+            if "images/static/blocked.gif" in most_similar_image.get("src"):
+                return
             await ctx.send(
-                "Most Relevant Image:\n{}\n".format(most_similar_image.get("src"))
+                "**Most Relevant Image**\n{}\n".format(most_similar_image.get("src"))
             )
         else:
             return await ctx.send(
