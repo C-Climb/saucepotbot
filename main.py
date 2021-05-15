@@ -1,15 +1,12 @@
 import discord
-from discord.ext.commands.core import check
 import settings
 from discord.ext import commands
-from discord.ext.commands import Bot
 from requests.sessions import session
 from requests_html import HTMLSession
 
 
 session = HTMLSession()
 
-client = discord.Client()
 bot = commands.Bot(command_prefix="??")
 
 
@@ -31,7 +28,7 @@ async def sauce(ctx, arg):
     supplied_image_error = "Supplied URL is not usable..."
     dimension_image_error = "image dimensions too small..."
     check_for_error = req.html.find("body", first=True).text
-    # this is hilarious and switch a switch statement would probably be more readable :^)
+    # this is hilarious and a switch statement would probably be more readable :^)
     if error_message == check_for_error:
         return await ctx.send("This isn't an image...")
     elif supplied_image_error == check_for_error:
